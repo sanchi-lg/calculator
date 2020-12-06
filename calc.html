@@ -1,0 +1,258 @@
+<html>
+
+<head>
+    <title>calculator</title>
+    <style>
+        body {
+            background-color: lightseagreen;
+        }
+
+        .calc>div {
+            border: grey 1px solid;
+            font-size: large;
+            text-align: center;
+            padding-top: 9px;
+            padding-bottom: 2px;
+            color: black;
+
+            font-weight: bold;
+        }
+
+        .calc {
+            padding-left: 2px;
+            margin-bottom: 200px;
+            margin-right: 50px;
+            margin-left: 50px;
+            width: 270px;
+            background-color: white;
+            border-radius: 5px;
+            display: grid;
+            grid-template-columns: repeat(4, 70px);
+            grid-template-rows: repeat(5, 50px);
+        }
+
+        .equal {
+            grid-row: 2/6;
+            grid-column: 4/5;
+            padding-top: 100px;
+            background-color: orangered;
+            font-size: large;
+            font-weight: bold;
+        }
+
+        .dis {
+            height: 55px;
+            margin-top: 200px;
+            padding-left: 2px;
+            margin-right: 50px;
+            margin-left: 50px;
+            width: 280px;
+            background-color: black;
+            color: white;
+            font-size: 40px;
+            vertical-align: middle;
+            text-align: end;
+            overflow: hidden;
+            border-radius: 5px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+
+        }
+    </style>
+    <script>
+        function cal(gd1, op, gd2) {
+            let result
+            let d1 = parseFloat(gd1)
+            let d2 = parseFloat(gd2)
+
+            if (op === 'add') {
+                result = d1 + d2
+            }
+            else if (op === "sub") {
+                result = d1 - d2
+            }
+            else if (op === "mul") {
+                result = d1 * d2
+            }
+            else if (op === "div") {
+                result = d1 / d2
+            }
+            return result
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="main">
+        <div class="dis">0</div>
+        <div class="calc" id="cal">
+
+            <button class="add" data-action="add">+</button>
+            <button class="sub" data-action="sub">-</button>
+            <button class="mul" data-action="mul">*</button>
+            <button class="div" data-action="div">/</button>
+            <button class="7">7</button>
+            <button class="8">8</button>
+            <button class="9">9</button>
+            <button class="4">4</button>
+            <button class="5">5</button>
+            <button class="6">6</button>
+            <button class="1">1</button>
+            <button class="2">2</button>
+            <button class="3">3</button>
+            <button class="0">0</button>
+            <button class="dec" data-action="dec">.</button>
+            <button class="clr" data-action="clr">AC</button>
+            <button class="equal" data-action="equal">=</button>
+
+
+
+
+        </div>
+    </div>
+
+    <script>
+        // document.querySelector('.main').dataset.op = ""
+        // document.querySelector('.main').dataset.d1 = ""
+        // document.querySelector('.main').dataset.d2 = ""
+        // document.querySelector('.main').dataset.pk = ""
+        document.getElementById("cal").addEventListener("click", function (e) {
+
+            if (e.target.matches('button')) {
+
+                const key = e.target
+                const action = key.dataset.action
+                const keycontent = key.textContent
+                const discontent = document.querySelector('.dis').textContent
+
+                if (!action) {
+
+
+                    if ((discontent === '0' && !document.querySelector('.main').dataset.op) || !document.querySelector('.main').dataset.op) {
+
+                        if (document.querySelector('.main').dataset.pk === "digit") {
+                            document.querySelector('.dis').textContent = discontent + keycontent
+                        }
+                        else {
+                            document.querySelector('.dis').textContent = keycontent
+
+                        }
+                        document.querySelector('.main').dataset.d1 = document.querySelector('.dis').textContent
+
+                    } else if (document.querySelector('.main').dataset.op) {
+                        if (document.querySelector('.main').dataset.pk === "digit") {
+                            document.querySelector('.dis').textContent = discontent + keycontent
+                        }
+                        else {
+                            document.querySelector('.dis').textContent = keycontent
+
+                        }
+
+                        document.querySelector('.main').dataset.d2 = document.querySelector('.dis').textContent
+
+                    }
+
+                    document.querySelector('.main').dataset.pk = "digit"
+
+                }
+
+                else {
+
+                    const op = document.querySelector('.main').dataset.op
+                    const d1 = document.querySelector('.main').dataset.d1
+                    const d2 = document.querySelector('.main').dataset.d2
+
+                    const pk = document.querySelector('.main').dataset.pk
+                    console.log("/////////" + pk);
+                    if (pk == undefined || pk == "") {
+
+                        document.querySelector('.dis').textContent = 0
+
+                    }
+
+                    if (action === 'clr') {
+
+                        document.querySelector('.main').removeAttribute("data-op")
+                        document.querySelector('.main').dataset.d1 = ""
+                        document.querySelector('.main').dataset.d2 = ""
+                        document.querySelector('.main').dataset.pk = ""
+                        document.querySelector('.dis').textContent = 0
+
+                    }
+
+
+                    if (action === "dec") {
+
+                        if (document.querySelector('.main').dataset.pk === 'operator' || discontent === '0') {
+                            document.querySelector('.dis').textContent = '0.'
+                            document.querySelector('.main').dataset.pk = "digit"
+                        }
+                        else if (!discontent.includes('.')) {
+                            document.querySelector('.dis').textContent = discontent + '.'
+                            document.querySelector('.main').dataset.pk = "digit"
+                        }
+
+                    }
+
+                    if (action === 'add' || action === 'sub' || action === 'mul' || action === 'div') {
+                        // const d1=document.querySelector('.main').dataset.d1
+                        console.log(action + "pressed");
+                        console.log(d1 + ".." + op + ".." + pk);
+
+                        if (d1 && op && d2) {
+                            console.log("hello");
+                            document.querySelector('.dis').textContent = cal(d1, op, d2)
+                            document.querySelector('.main').dataset.d1 = document.querySelector('.dis').textContent
+                            // document.querySelector('.main').dataset.op = action
+
+                            //digit2 remove
+                            document.querySelector('.main').removeAttribute("data-d2")
+                            document.querySelector('.main').dataset.op = action
+
+                            document.querySelector('.main').dataset.pk = 'operator'
+
+
+                        }
+
+                        else if (d1 && pk === 'digit' && !d2
+                        ) {
+                            console.log("hi");
+                            // document.querySelector('.dis').textContent= cal(d1,op,d2)
+                            document.querySelector('.main').dataset.op = action
+                            document.querySelector('.main').dataset.pk = 'operator'
+
+                        }
+
+                        key.classList.add("pressed")
+                        console.log(document.querySelector('.main').dataset.d1 + ".." + document.querySelector('.main').dataset.op + ".." + document.querySelector('.main').dataset.pk);
+
+                    }
+
+                    if (action === 'equal') {
+
+                        if (d1 && op && d2) {
+                            console.log(d1 + "......" + d2 + "......" + op);
+                            document.querySelector('.dis').textContent = cal(d1, op, d2)
+                            //digit2 and op remove
+                            // document.querySelector('.main').dataset.op.remove()
+                            // document.querySelector('.main').dataset.d2.remove()
+                            document.querySelector('.main').removeAttribute("data-d2")
+                            document.querySelector('.main').removeAttribute("data-d1")
+                            document.querySelector('.main').removeAttribute("data-op")
+                            document.querySelector('.main').removeAttribute("data-pk")
+
+
+                        }
+
+                    }
+
+                }
+
+            }
+        })  
+    </script>
+
+</body>
+
+</html>
