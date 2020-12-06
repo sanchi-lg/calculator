@@ -5,10 +5,9 @@
 * CSS
 * JavaScript
 
-### DEMO
-https://sanchi-lg.github.io/calculator/
+### DEMO 
 
-<p align="center">
+<p align="center"
 <img src="cal1.JPG">
 </p>
 
