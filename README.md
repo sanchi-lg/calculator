@@ -6,6 +6,8 @@
 * JavaScript
 
 ### DEMO
+https://sanchi-lg.github.io/calculator/
+
 <p align="center">
 <img src="cal1.JPG">
 </p>
